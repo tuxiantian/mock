@@ -29,7 +29,10 @@ public class IntfMockDataService {
 
     public String findByIntfCode(String intfCode,String tranId){
         IntfMockData intfMockData = this.mapper.findByIntfCode(intfCode,tranId);
-		log.info("接口编码是{}，模拟报文是{}",intfCode,intfMockData.getRespData());
+        if (intfMockData==null){
+        	return String.format("找不到配置的模拟报文，你可能还没有配置intfCode=%s,tranId=%s的模拟报文哟",intfCode,tranId);
+		}
+		log.info("接口编码是{},业务流水是{}，模拟报文是{}",intfCode,tranId,intfMockData.getRespData());
 		return intfMockData.getRespData();
 	}
 }
