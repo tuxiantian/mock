@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mock.biz.mapper.IntfMockDataMapper">
+
+    <resultMap id="IntfMockData" type="com.example.mock.biz.entity.IntfMockData">
+        <result column="intf_code" property="intfCode" jdbcType="VARCHAR" />
+        <result column="resp_data" property="respData" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="findByIntfCode" resultMap="IntfMockData">
+          select * from t_intf_mock_data t where t.intf_code=#{intfCode} LIMIT 1
+    </select>
+</mapper>

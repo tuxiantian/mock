@@ -1,0 +1,62 @@
+#log4j2 配置文件
+Configuration:
+  #log4j2自身的日志级别
+  status: warn
+  #log4j2 每多少秒检测一次配置文件的变化，更新日志配置
+  monitorInterval: 60
+
+  #整体属性
+  properties:
+    property:
+    - #日志总目录
+      name: logHome
+      value: ./logs/mock
+    - #日志输出格式
+      name: patternLayout
+      value: "%highlight{[%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%l] - %m%n%throwable}"
+
+  Appenders:
+    #输出到控制台的日志
+    Console:
+      name: console
+      target: SYSTEM_OUT
+      PatternLayout:
+        disableAnsi: false
+        pattern: ${patternLayout}
+
+    #输出到文件的各种日志
+    RollingFile:
+    - #其他所有日志
+      name: File-Other-All
+      fileName: ${logHome}/mock_all.log
+      filePattern: ${logHome}/grouping_logs/mock_all-%i.log.gz
+      PatternLayout:
+        Pattern: ${patternLayout}
+      Policies:
+        SizeBasedTriggeringPolicy:
+          size: 100MB
+      DefaultRolloverStrategy:
+        max: 10
+    - #其他错误日志
+          name: File-Other-Err
+          fileName: ${logHome}/od_thread_err.log
+          filePattern: ${logHome}/mock_err-%i.log.gz
+          PatternLayout:
+            Pattern: ${patternLayout}
+          Policies:
+            SizeBasedTriggeringPolicy:
+              size: 100MB
+          DefaultRolloverStrategy:
+            max: 10
+          Filters:
+            #只输出ERROR和以上的日志
+            ThresholdFilter:
+              level: ERROR
+              onMatch: ACCEPT
+              onMismatch: DENY
+    Root:
+          level: INFO
+          AppenderRef:
+          - ref: File-Other-All
+          - ref: File-Other-Err
+          - ref: console
