@@ -27,8 +27,8 @@ public class IntfMockDataService {
 	private IntfMockDataMapper mapper;
 
 
-    public String findByIntfCode(String intfCode){
-        IntfMockData intfMockData = this.mapper.findByIntfCode(intfCode);
+    public String findByIntfCode(String intfCode,String tranId){
+        IntfMockData intfMockData = this.mapper.findByIntfCode(intfCode,tranId);
 		log.info("接口编码是{}，模拟报文是{}",intfCode,intfMockData.getRespData());
 		return intfMockData.getRespData();
 	}

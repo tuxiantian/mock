@@ -17,7 +17,7 @@ public class MockApi {
 
     @ResponseBody
     @RequestMapping(value = "data", method = {RequestMethod.POST,RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String data(@RequestParam String intfCode){
-        return intfMockDataService.findByIntfCode(intfCode);
+    public String data(@RequestParam String intfCode,String tranId){
+        return intfMockDataService.findByIntfCode(intfCode,tranId);
     }
 }

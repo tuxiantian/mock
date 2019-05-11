@@ -8,6 +8,10 @@
     </resultMap>
 
     <select id="findByIntfCode" resultMap="IntfMockData">
-          select * from t_intf_mock_data t where t.intf_code=#{intfCode} LIMIT 1
+          select * from t_intf_mock_data t where t.intf_code=#{intfCode}
+          <if test="tranId !=null and tranId !=''">
+              and t.tran_id=#{tranId}
+          </if>
+          LIMIT 1
     </select>
 </mapper>

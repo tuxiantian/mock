@@ -7,5 +7,5 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface IntfMockDataMapper {
-    IntfMockData findByIntfCode(@Param("intfCode") String intfCode);
+    IntfMockData findByIntfCode(@Param("intfCode") String intfCode,@Param("tranId") String tranId);
 }
