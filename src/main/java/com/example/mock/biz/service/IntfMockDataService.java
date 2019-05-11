@@ -1,6 +1,8 @@
 package com.example.mock.biz.service;
 
 
+import com.alibaba.fastjson.JSON;
+import com.example.mock.biz.enums.ResponseDataType;
 import com.example.mock.biz.mapper.IntfMockDataMapper;
 import com.example.mock.biz.entity.IntfMockData;
 import lombok.extern.log4j.Log4j2;
@@ -33,6 +35,14 @@ public class IntfMockDataService {
         	return String.format("找不到配置的模拟报文，你可能还没有配置intfCode=%s,tranId=%s的模拟报文哟",intfCode,tranId);
 		}
 		log.info("接口编码是{},业务流水是{}，模拟报文是{}",intfCode,tranId,intfMockData.getRespData());
+		try {
+			if (intfMockData.getType()!=null && ResponseDataType.JSON.getVal()==intfMockData.getType()) {
+				JSON.parse(intfMockData.getRespData());
+			}
+		} catch (Exception e) {
+			log.error("模拟报文不能解析为json",e);
+			return String.format("模拟报文不能解析为json，请检查你配置intfCode=%s,tranId=%s的模拟报文",intfCode,tranId);
+		}
 		return intfMockData.getRespData();
 	}
 }
