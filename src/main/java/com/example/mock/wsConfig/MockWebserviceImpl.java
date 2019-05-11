@@ -14,7 +14,7 @@ import javax.jws.WebService;
         targetNamespace = "http://wsConfig.mock.com", // 【名称空间】：【实现类包名的反缀】 www.namespace.com
         endpointInterface = "com.example.mock.wsConfig.MockWebservice")
 @Component
-public class WebserviceImpl implements MockWebservice {
+public class MockWebserviceImpl implements MockWebservice {
     @Autowired
     private IntfMockDataService intfMockDataService;
 
