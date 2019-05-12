@@ -7,11 +7,16 @@
         <result column="resp_data" property="respData" jdbcType="VARCHAR" />
     </resultMap>
 
+
     <select id="findByIntfCode" resultMap="IntfMockData">
           select * from t_intf_mock_data t where t.intf_code=#{intfCode}
           <if test="tranId !=null and tranId !=''">
               and t.tran_id=#{tranId}
           </if>
-          LIMIT 1
+          <if test="dbType.equals('oracle')">
+              and rownum=1
+          </if>
+        <if test="dbType.equals('mysql')">LIMIT 1</if>
+
     </select>
 </mapper>

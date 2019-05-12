@@ -11,6 +11,7 @@ import org.dom4j.DocumentHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,13 +26,15 @@ import java.util.List;
 public class IntfMockDataService {
 
 	private static final Logger logger = LoggerFactory.getLogger(IntfMockDataService.class);
+	@Value("${dbType}")
+	private String dbType;
 
 	@Autowired
 	private IntfMockDataMapper mapper;
 
 
     public String findByIntfCode(String intfCode,String tranId){
-        IntfMockData intfMockData = this.mapper.findByIntfCode(intfCode,tranId);
+        IntfMockData intfMockData = this.mapper.findByIntfCode(intfCode,tranId,dbType);
         if (intfMockData==null){
         	return String.format("找不到配置的模拟报文，你可能还没有配置intfCode=%s,tranId=%s的模拟报文哟",intfCode,tranId);
 		}
@@ -48,9 +51,9 @@ public class IntfMockDataService {
 			if (intfMockData.getType()!=null && ResponseDataType.XML.getVal()==intfMockData.getType()){
 				DocumentHelper.parseText(intfMockData.getRespData());
 			}
-			return String.format("模拟报文不能解析为xml，请检查你配置intfCode=%s,tranId=%s的模拟报文",intfCode,tranId);
 		}catch (Exception e){
 			log.error("模拟报文不能解析为xml",e);
+			return String.format("模拟报文不能解析为xml，请检查你配置intfCode=%s,tranId=%s的模拟报文",intfCode,tranId);
 		}
 		return intfMockData.getRespData();
 	}
